@@ -10,6 +10,7 @@ namespace CPCS
 {
     public static class Fonction_CPCS
     {
+
         //pour centrer le titres des formulaires
         public static void UpdateTextPosition(Form formulaire)
         {

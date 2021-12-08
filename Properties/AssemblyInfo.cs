@@ -1,17 +1,16 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // Les informations générales relatives à un assembly dépendent de
 // l'ensemble d'attributs suivant. Changez les valeurs de ces attributs pour modifier les informations
 // associées à un assembly.
 [assembly: AssemblyTitle("CPCS")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Classe contenant des classes, des dérivés de classes et des Methodes static.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("CPCS")]
-[assembly: AssemblyCopyright("Copyright ©  2021")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCompany("CPCS")]
+[assembly: AssemblyProduct("Classe contenant des classes, des dérivés de classes et des Methodes static.")]
+[assembly: AssemblyCopyright("Copyright © CPCS 2021")]
+[assembly: AssemblyTrademark("CPCS")]
 [assembly: AssemblyCulture("")]
 
 // L'affectation de la valeur false à ComVisible rend les types invisibles dans cet assembly

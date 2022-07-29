@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CPCS
 {
-    public class Dictionary_CPCS<TKey, TValue> : Dictionary<TKey, TValue>
+    public class CPCS_Dictionary<TKey, TValue> : Dictionary<TKey, TValue>
     {
         public void Insert(int index, TKey key, TValue value)
         {
@@ -33,7 +33,7 @@ namespace CPCS
             }
         }
 
-        public void DebugLireToutesLignes()
+        public void DebugReadAllLines()
         {
             if (this.Count > 0)
             {

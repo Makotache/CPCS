@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace CPCS
 {
-    public partial class Calendrier_CPCS : UserControl
+    public partial class FormCalendar : UserControl
     {
         public static readonly string[] NOM_MOIS = {"Janvier", "Février", "Mars", "Avril", "Mai", 
             "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"};
@@ -18,9 +18,9 @@ namespace CPCS
         /// <summary>
         /// Permet de demander à l'utilisateur de saisir une date pour effectuer des traitements.
         /// </summary>
-        public Calendrier_CPCS()
+        public FormCalendar()
         {
-            suppl_contructeur(1900, DateTime.Now.Year);
+            suppl_contructor(1900, DateTime.Now.Year);
         }
 
         /// <summary>
@@ -28,9 +28,9 @@ namespace CPCS
         /// </summary>
         /// <param name="annee_min">Définit l'année minimum que l'on à dans le comboBox.</param>
         /// <param name="annee_max">Définit l'année maximum que l'on à dans le comboBox.</param>
-        public Calendrier_CPCS(int annee_min, int annee_max)
+        public FormCalendar(int annee_min, int annee_max)
         {
-            suppl_contructeur(annee_min, annee_max);
+            suppl_contructor(annee_min, annee_max);
         }
 
         /// <summary>
@@ -38,17 +38,17 @@ namespace CPCS
         /// </summary>
         /// <param name="annee_min">Définit l'année minimum que l'on à dans le comboBox.</param>
         /// <param name="annee_max">Définit l'année maximum que l'on à dans le comboBox.</param>
-        private void suppl_contructeur(int annee_min, int annee_max)
+        private void suppl_contructor(int annee_min, int annee_max)
         {
             InitializeComponent();
 
-            actualisationMois();
-            actualisationAnnee(annee_min, annee_max);
+            ActualizationMonth();
+            ActualizationYear(annee_min, annee_max);
 
             //on initialise le mois et l'année avant les jours
             //pour ce servir de ces valeurs lors de la récupération
             ////du nombre de mois pour la date de base
-            actualisationJour();
+            ActualizationDay();
         }
 
         #region actualisation
@@ -56,7 +56,7 @@ namespace CPCS
         /// <summary>
         /// Sert à l'actualisation du comboBox du Jour.
         /// </summary>
-        private void actualisationJour()
+        private void ActualizationDay()
         {
             int mois = mois_comboBox.SelectedIndex + 1;
             int annee = Convert.ToInt16(annee_comboBox.SelectedItem);
@@ -73,7 +73,7 @@ namespace CPCS
         /// <summary>
         /// Sert à l'actualisation du comboBox du Mois.
         /// </summary>
-        private void actualisationMois()
+        private void ActualizationMonth()
         {
             List<int> num_mois = new List<int>();
             for (int i = 1; i < 13; i++)
@@ -88,7 +88,7 @@ namespace CPCS
         /// </summary>
         /// <param name="annee_min">Définit l'année minimum que l'on à dans le comboBox.</param>
         /// <param name="annee_max">Définit l'année maximum que l'on à dans le comboBox.</param>
-        private void actualisationAnnee(int annee_min, int annee_max)
+        private void ActualizationYear(int annee_min, int annee_max)
         {
             List<int> num_annee = new List<int>();
             for (int i = annee_max; i > annee_min; i--)
@@ -101,9 +101,9 @@ namespace CPCS
 
 
         #region ComboBox _SelectedIndexChanged
-        private void actualisationJour(object sender, EventArgs e)
+        private void ActualizationDay(object sender, EventArgs e)
         {
-            actualisationJour();
+            ActualizationDay();
         }
         #endregion
 
@@ -133,16 +133,16 @@ namespace CPCS
         /// </summary>
         /// <param name="jour">Le jour que l'on veux définir.</param>
         /// <returns>False si le <paramref name="jour"/> n'est pas valide. Sinon True.</returns>
-        public bool SetJour(int jour)
+        public bool SetDay(int jour)
         {
-            return addOn_setDate(jour, jour_comboBox);
+            return AddOn_SetDate(jour, jour_comboBox);
         }
 
         /// <summary>
         /// Récupération de la valeur du jour.
         /// </summary>
         /// <returns>La valeur du jour sous forme d'un nombre.</returns>
-        public int GetJour()
+        public int GetDay()
         {
             return Convert.ToInt32(jour_comboBox.SelectedItem.ToString());
         }
@@ -152,16 +152,16 @@ namespace CPCS
         /// </summary>
         /// <param name="mois">Le mois que l'on veux définir.</param>
         /// <returns>False si le <paramref name="mois"/> n'est pas valide. Sinon True.</returns>
-        public bool SetMois(int mois)
+        public bool SetMonth(int mois)
         {
-            return addOn_setDate(mois, mois_comboBox);
+            return AddOn_SetDate(mois, mois_comboBox);
         }
 
         /// <summary>
         /// Récupération de la valeur du mois.
         /// </summary>
         /// <returns>La valeur du mois sous forme d'un nombre.</returns>
-        public int GetMoisInt()
+        public int GetMonthInt()
         {
             return mois_comboBox.SelectedIndex + 1;
         }
@@ -170,7 +170,7 @@ namespace CPCS
         /// Récupération de la valeur du mois.
         /// </summary>
         /// <returns>La valeur du mois sous forme d'une chaine de caractère.</returns>
-        public string GetMoisString()
+        public string GetMonthString()
         {
             return NOM_MOIS[mois_comboBox.SelectedIndex];
         }
@@ -180,16 +180,16 @@ namespace CPCS
         /// </summary>
         /// <param name="annee">L'année que l'on veux définir.</param>
         /// <returns>False si le <paramref name="annee"/> n'est pas valide. Sinon True.</returns>
-        public bool SetAnnee(int annee)
+        public bool SetYear(int annee)
         {
-            return addOn_setDate(annee, annee_comboBox);
+            return AddOn_SetDate(annee, annee_comboBox);
         }
 
         /// <summary>
         /// Récupération de la valeur de l'année.
         /// </summary>
         /// <returns>La valeur de l'année sous forme d'un nombre.</returns>
-        public int GetAnnee()
+        public int GetYear()
         {
             return Convert.ToInt32(annee_comboBox.SelectedItem.ToString());
         }
@@ -200,7 +200,7 @@ namespace CPCS
         /// <param name="nombre">Nombre à sélectionner dans le comboBox.</param>
         /// <param name="comboBox">ComboBox dans lequel est sélectionné le nombre entré en paramètre.</param>
         /// <returns>False si le nombre donnée n'existe pas dans les Items des comboBox. Sinon True.</returns>
-        private bool addOn_setDate(int nombre, ComboBox comboBox)
+        private bool AddOn_SetDate(int nombre, ComboBox comboBox)
         {
             if(comboBox.Items.Contains((object)nombre))
             {

@@ -1,7 +1,7 @@
 ﻿
 namespace CPCS
 {
-    partial class Calendrier_CPCS
+    partial class FormCalendar
     {
         /// <summary> 
         /// Variable nécessaire au concepteur.
@@ -53,7 +53,7 @@ namespace CPCS
             this.mois_comboBox.Name = "mois_comboBox";
             this.mois_comboBox.Size = new System.Drawing.Size(61, 28);
             this.mois_comboBox.TabIndex = 1;
-            this.mois_comboBox.SelectedIndexChanged += new System.EventHandler(this.actualisationJour);
+            this.mois_comboBox.SelectedIndexChanged += new System.EventHandler(this.ActualizationDay);
             // 
             // annee_comboBox
             // 
@@ -63,7 +63,7 @@ namespace CPCS
             this.annee_comboBox.Name = "annee_comboBox";
             this.annee_comboBox.Size = new System.Drawing.Size(94, 28);
             this.annee_comboBox.TabIndex = 2;
-            this.annee_comboBox.SelectedIndexChanged += new System.EventHandler(this.actualisationJour);
+            this.annee_comboBox.SelectedIndexChanged += new System.EventHandler(this.ActualizationDay);
             // 
             // label1
             // 

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace CPCS
 {
-    public static class IPV4_CPCS
+    public static class CPCS_IPV4
     {
-        public static bool ipValide(String chaine)
+        public static bool ValideIp(String chaine)
         {
             string base_pattern = "(25[0-4]|2[0-4][0-9]|[01]?[0-9][0-9]?)";
             string pattern = @"\b" + base_pattern + @"\." + base_pattern + @"\." + base_pattern + @"\." + base_pattern + @"\b";
@@ -42,7 +42,7 @@ namespace CPCS
                 //si la 'chaine' possède bien 4 octets
                 if (chaine.Split('.').Length == 4)
                 {
-                    List<int> octets = List_CPCS.strArrayToIntArray(chaine.Split('.'));
+                    List<int> octets = CPCS_List.StrArrayToIntArray(chaine.Split('.'));
                     if (octets[0] == 0)
                     { return false; }
 

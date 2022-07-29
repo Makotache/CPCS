@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace CPCS
 {
-    public class List_CPCS
+    public class CPCS_List
     {
-        public static List<int> strArrayToIntArray(String[] tableau)
+        public static List<int> StrArrayToIntArray(String[] tableau)
         {
             int taille_tableau = tableau.Length;
             List<int> result = new List<int>();

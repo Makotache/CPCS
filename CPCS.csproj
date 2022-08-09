@@ -43,11 +43,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileClass\AddOn\CPCS_Binary.cs" />
     <Compile Include="FileClass\AddOn\CPCS_Array.cs" />
-    <Compile Include="FileClass\Own\FormCalendar.cs">
+    <Compile Include="FileClass\AddOn\CPCS_Reflection.cs" />
+    <Compile Include="FileClass\Own\Usrc\FormCalendar.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="FileClass\Own\FormCalendar.Designer.cs">
+    <Compile Include="FileClass\Own\Usrc\FormCalendar.Designer.cs">
       <DependentUpon>FormCalendar.cs</DependentUpon>
     </Compile>
     <Compile Include="FileClass\AddOn\CPCS_Coord.cs" />
@@ -71,7 +73,7 @@
     <Compile Include="FileClass\AddOn\CPCS_Time.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="FileClass\Own\FormCalendar.resx">
+    <EmbeddedResource Include="FileClass\Own\Usrc\FormCalendar.resx">
       <DependentUpon>FormCalendar.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>

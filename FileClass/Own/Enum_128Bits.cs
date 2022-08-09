@@ -8,18 +8,22 @@ namespace CPCS
 {
     public class Enum_128Bits
     {
-        private DualValue<EnumValue2, EnumValue1> _value;
+        private DualValue<HighWeight, LowWeight> _value;
 
         public Enum_128Bits()
         {
-            _value = new DualValue<EnumValue2, EnumValue1>(EnumValue2._000, EnumValue1._000);
+            _value = new DualValue<HighWeight, LowWeight>(HighWeight._000, LowWeight._000);
         }
-        public Enum_128Bits(EnumValue2 enumValue2, EnumValue1 enumValue1)
+        public Enum_128Bits(HighWeight enumValue2, LowWeight enumValue1)
         {
-            _value = new DualValue<EnumValue2, EnumValue1>(enumValue2, enumValue1);
+            _value = new DualValue<HighWeight, LowWeight>(enumValue2, enumValue1);
         }
 
         public override string ToString()
+        {
+            return ToString(false);
+        }
+        public string ToString(bool makeItVisualizable)
         {
             string add0(string str)
             {
@@ -31,83 +35,61 @@ namespace CPCS
                 return str;
             }
 
-            string add_(string str)
-            {
-                string _4octet_1 = str.Substring(0, 4);
-                string _4octet_2 = str.Substring(4, 4);
-                string _4octet_3 = str.Substring(8, 4);
-                string _4octet_4 = str.Substring(12);
-                return "_" + _4octet_1 + "_" + _4octet_2 + "_" + _4octet_3 + "_" + _4octet_4;
-            }
+            string str_value1 = add0(Convert.ToString((long)_value.Value1, toBase: 16).ToUpper());
+            string str_value2 = add0(Convert.ToString((long)_value.Value2, toBase: 16).ToUpper());
 
-            string str_value1 = "0x" + add_(add0(Convert.ToString((long)_value.Value1, toBase: 16).ToUpper()));
-            string str_value2 = add_(add0(Convert.ToString((long)_value.Value2, toBase: 16).ToUpper()));
+            if (makeItVisualizable)
+            {
+                string add_(string str)
+                {
+                    string _4octet_1 = str.Substring(0, 4);
+                    string _4octet_2 = str.Substring(4, 4);
+                    string _4octet_3 = str.Substring(8, 4);
+                    string _4octet_4 = str.Substring(12);
+                    return "_" + _4octet_1 + "_" + _4octet_2 + "_" + _4octet_3 + "_" + _4octet_4;
+                }
+
+                str_value1 = "0x" + add_(str_value1);
+                str_value2 = add_(str_value2);
+            }
+           
             return str_value1 + str_value2;
         }
 
         #region Contains
         public bool Contains(string value)
         {
-            value = value.Replace("0x", "").Replace("_", "").Replace(" ", "");
-
-            if (value.Length != 32)
-            {
-                throw new ArgumentException("La chaine 'value' possède un format incorrect");
-            }
-
-            ulong enum1_value1 = Convert.ToUInt64(value.Substring(0, 16), 2);
-            ulong enum1_value2 = Convert.ToUInt64(value.Substring(16), 2);
-
-            ulong enum2_value1 = (ulong)_value.Value2;
-            ulong enum2_value2 = (ulong)_value.Value1;
-
-            ulong tmp = enum2_value1 ^ enum1_value1;
-            bool enum1 = tmp != enum2_value1;
-
-            tmp = enum2_value2 ^ enum1_value2;
-            bool enum2 = tmp != enum2_value2;
-
-            return enum1 || enum2;
+            return this.Contains(Enum_128Bits.ConvertFromString(value));
         }
-        public bool Contains(EnumValue1 value)
+        public bool Contains(Enum_128Bits enum2)
         {
-            //on met le bit a 0 dans une variable temporaire
-            ulong tmp = (ulong)(_value.Value2 ^ value);
-            //et on compare si il ya une différence entre la variable original et la temporaire
-            //si c'est le cas, alors on contient bien la valeur
-            return tmp != (ulong)_value.Value2;
+            return CPCS_Binary.Contains(CPCS_Binary.ConvertHexaToBinary(this.ToString()), CPCS_Binary.ConvertHexaToBinary(enum2.ToString()));
         }
-        public bool Contains(EnumValue2 value)
+        public bool Contains(LowWeight value)
         {
-            //on met le bit a 0 dans une variable temporaire
-            ulong tmp = (ulong)(_value.Value1 ^ value);
-            //et on compare si il ya une différence entre la variable original et la temporaire
-            //si c'est le cas, alors on contient bien la valeur
-            return tmp != (ulong)_value.Value1;
+            return CPCS_Binary.Contains((ulong)_value.Value2, (ulong)value);
+        }
+        public bool Contains(HighWeight value)
+        {
+            return CPCS_Binary.Contains((ulong)_value.Value1, (ulong)value);
         }
         #endregion 
 
         #region Set
         public void Add(string value)
         {
-            value = value.Replace("0x", "").Replace("_", "").Replace(" ", "");
-
-            if (value.Length != 32)
-            {
-                throw new ArgumentException("La chaine 'value' possède un format incorrect");
-            }
-
-            ulong value1 = Convert.ToUInt64(value.Substring(0, 16), 2);
-            ulong value2 = Convert.ToUInt64(value.Substring(16), 2);
-
-            _value.Value2 |= (EnumValue1)value1;
-            _value.Value1 |= (EnumValue2)value2;
+            this.Add(Enum_128Bits.ConvertFromString(value));
         }
-        public void Add(EnumValue1 value)
+        public void Add(Enum_128Bits enum2)
+        {
+            this.Add(enum2._value.Value2);
+            this.Add(enum2._value.Value1);
+        }
+        public void Add(LowWeight value)
         {
             _value.Value2 |= value;
         }
-        public void Add(EnumValue2 value)
+        public void Add(HighWeight value)
         {
             _value.Value1 |= value;
         }
@@ -116,24 +98,18 @@ namespace CPCS
         #region Remove
         public void Remove(string value)
         {
-            value = value.Replace("0x", "").Replace("_", "").Replace(" ", "");
-
-            if (value.Length != 32)
-            {
-                throw new ArgumentException("La chaine 'value' possède un format incorrect");
-            }
-
-            ulong value1 = Convert.ToUInt64(value.Substring(0, 16), 2);
-            ulong value2 = Convert.ToUInt64(value.Substring(16), 2);
-
-            _value.Value2 ^= (EnumValue1)value1;
-            _value.Value1 ^= (EnumValue2)value2;
+            this.Remove(Enum_128Bits.ConvertFromString(value));
         }
-        public void Remove(EnumValue1 value)
+        public void Remove(Enum_128Bits enum2)
+        {
+            this.Remove(enum2._value.Value2);
+            this.Remove(enum2._value.Value1);
+        }
+        public void Remove(LowWeight value)
         {
             _value.Value2 ^= value;
         }
-        public void Remove(EnumValue2 value)
+        public void Remove(HighWeight value)
         {
             _value.Value1 ^= value;
         }
@@ -154,24 +130,23 @@ namespace CPCS
         }
         #endregion
 
+        #region static
         public static Enum_128Bits ConvertFromString(string str)
         {
-            int count_underscore = str.Split('_').Length - 1;
-            bool contains_0x = str.Contains("0x");
+            str = str.Replace("0x", "").Replace("_", "").Replace(" ", "");
 
-            if (str.Length != 42 || count_underscore != 8 || !contains_0x)
+            if (str.Length != 32)
             {
                 throw new ArgumentException("La chaine 'str' possède un format incorrect");
             }
 
-            str = str.Replace("0x", "").Replace("_", "").Replace(" ", "");
 
             ulong value1 = Convert.ToUInt64(str.Substring(0, 16), 16);
             ulong value2 = Convert.ToUInt64(str.Substring(16), 16);
 
             try
             {
-                return new Enum_128Bits((EnumValue2)value1, (EnumValue1)value2);
+                return new Enum_128Bits((HighWeight)value1, (LowWeight)value2);
             }
             catch
             {
@@ -179,9 +154,49 @@ namespace CPCS
             }
         }
 
+        public static List<Enum_128Bits> CreateListEnum_128Bits(byte size = 128)
+        {
+            return CreateListEnum_128Bits(0, size);
+        }
+
+        public static List<Enum_128Bits> CreateListEnum_128Bits(byte startIndex, byte size = 128)
+        {
+            if (size > 128)
+            {
+                throw new ArgumentException("L'argument 'size' ne peut être supérieur a 128");
+            }
+
+            List<Enum_128Bits> result = new List<Enum_128Bits>();
+
+            for (byte i = startIndex; i <= size; i++)
+            {
+                string enumValue1_str = i <= 64 ? i+"" : "000";
+                string enumValue2_str = i <= 64 ? "000" : i+"";
+
+                int enumValue1Size = enumValue1_str.Length;
+                int enumValue2Size = enumValue2_str.Length;
+                for (int u = 0; u < 3 - enumValue1Size; u++)
+                {
+                    enumValue1_str = "0" + enumValue1_str;
+                }
+                for (int u = 0; u < 3 - enumValue2Size; u++)
+                {
+                    enumValue2_str = "0" + enumValue2_str;
+                }
+
+                LowWeight value1 = (LowWeight)CPCS_Reflection.GetValueObjFromEnum("_" + enumValue1_str, typeof(Enum_128Bits.LowWeight));
+                HighWeight value2 = (HighWeight)CPCS_Reflection.GetValueObjFromEnum("_" + enumValue2_str, typeof(Enum_128Bits.HighWeight));
+
+                result.Add(new Enum_128Bits(value2, value1));
+            }
+
+            return result;
+        }
+        #endregion
+
         #region enum
         [Flags]
-        public enum EnumValue1 : ulong
+        public enum LowWeight : ulong
         {
             _000 = 0x_0000_0000_0000_0000,
 
@@ -257,7 +272,7 @@ namespace CPCS
         }
 
         [Flags]
-        public enum EnumValue2 : ulong
+        public enum HighWeight : ulong
         {
             _000 = 0x_0000_0000_0000_0000,
 

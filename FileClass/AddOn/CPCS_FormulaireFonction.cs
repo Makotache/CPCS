@@ -32,7 +32,7 @@ namespace CPCS
         }
 
         [DllImport("user32.dll")]
-        static extern IntPtr GetWindowDC(IntPtr hWnd);
+        private static extern IntPtr GetWindowDC(IntPtr hWnd);
         /// <summary>
         /// Change la couleur des bordures du textbox
         /// </summary>

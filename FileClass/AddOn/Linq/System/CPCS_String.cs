@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CPCS
+namespace CPCS.Linq.System
 {
     public static class CPCS_String
     {
-        public static bool StringContainString(string strToVerify, string withIt, bool ignoreCase)
+        public static bool Contains(this string strToVerify, string withIt, bool ignoreCase)
         {
             if (ignoreCase)
             {
@@ -20,14 +20,14 @@ namespace CPCS
             }
         }
 
-        public static string StringLatinLetterOnly(string str, string customCharacter, bool ignoreCase = true, bool withAccent = true)
+        public static string StringLatinLetterOnly(this string str, string customCharacter, bool ignoreCase = true, bool withAccent = true)
         {
             const string specialLetter = "àãä" + "éêèë" + "ç" + "îïì" + "õòöô" + "ùûü" + "ÿ";
             string letter = "abcdefghijklmnopqrstuvwxyz" + customCharacter + (withAccent ? specialLetter : "");
 
             for (int i = str.Length - 1; i > -1; i--)
             {
-                if (!StringContainString(letter, str[i].ToString(), ignoreCase))
+                if (!Contains(letter, str[i].ToString(), ignoreCase))
                 {
                     str = str.Remove(i, 1);
                 }
@@ -35,14 +35,14 @@ namespace CPCS
             return str;
         }
 
-        public static bool StringContainLatinLetter(string str, string customCharacter, bool ignoreCase = true, bool withAccent = true)
+        public static bool ContainsLatinLetter(this string str, string customCharacter, bool ignoreCase = true, bool withAccent = true)
         {
             const string specialLetter = "àãä" + "éêèë" + "ç" + "îïì" + "õòöô" + "ùûü" + "ÿ";
             string letter = "abcdefghijklmnopqrstuvwxyz" + customCharacter + (withAccent ? specialLetter : "");
 
             for (int i = str.Length - 1; i > -1; i--)
             {
-                if (!StringContainString(letter, str[i].ToString(), ignoreCase))
+                if (!Contains(letter, str[i].ToString(), ignoreCase))
                 {
                     return false;
                 }
@@ -50,7 +50,7 @@ namespace CPCS
             return true;
         }
 
-        public static int OccurrenceCount(string str, string occurrence)
+        public static int OccurrenceCount(this string str, string occurrence)
         {
             int result = 0;
             for (int i = 0; i < str.Length; i++)

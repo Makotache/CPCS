@@ -13,25 +13,27 @@ namespace CPCS
         private const string binaryValues = "01";
         #endregion
 
+        #region operation
         #region contains
-        public static bool Contains(short valueContains, short thisItem)
-        {
-            return Contains((long)valueContains, thisItem);
-        }
-
-        public static bool Contains(ushort valueContains, ushort thisItem)
-        {
-            return Contains((long)valueContains, thisItem);
-        }
-
         public static bool Contains(int valueContains, int thisItem)
         {
-            return Contains((long)valueContains, thisItem);
-        }
+            if (thisItem > valueContains || valueContains == 0 || thisItem == 0)
+            {
+                return false;
+            }
 
-        public static bool Contains(uint valueContains, uint thisItem)
-        {
-            return Contains((long)valueContains, thisItem);
+            string valueContains_str = FillFirstZero(Convert.ToString(valueContains, toBase: 2), 32);
+            string thisItem_str = FillFirstZero(Convert.ToString(thisItem, toBase: 2), 32);
+
+            for (int i = 0; i < thisItem_str.Length; i++)
+            {
+                if (thisItem_str[i] == '1' && thisItem_str[i] != valueContains_str[i])
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         public static bool Contains(ulong valueContains, ulong thisItem)
@@ -51,8 +53,9 @@ namespace CPCS
                 return false;
             }
 
-            string valueContains_str = Convert.ToString(valueContains, toBase: 2 );
-            string thisItem_str = Convert.ToString(thisItem, toBase: 2 );
+            string valueContains_str = FillFirstZero(Convert.ToString(valueContains, toBase: 2 ), 64);
+            string thisItem_str = FillFirstZero(Convert.ToString(thisItem, toBase: 2 ), 64);
+
 
             //01            11          false
             //10            11          false
@@ -75,7 +78,7 @@ namespace CPCS
             {
                 throw new ArgumentException($"La chaine 'valueContains' possède un format incorrect");
             }
-            else if (!ContainsBinaryValueOnly(thisValue))
+            if (!ContainsBinaryValueOnly(thisValue))
             {
                 throw new ArgumentException($"La chaine 'thisValue' possède un format incorrect");
             }
@@ -109,39 +112,69 @@ namespace CPCS
         }
         #endregion
 
-        private static bool AllIs(string str, bool isTrue)
+        public static string Or(string operaterA, string operaterB)
         {
-            char c = isTrue ? '1' : '0';
-
-            for (int i = 0; i < str.Length; i++)
+            if (!ContainsBinaryValueOnly(operaterA))
             {
-                if (str[i] != '0')
-                {
-                    return false;
-                }
+                throw new ArgumentException($"La chaine 'operaterA' possède un format incorrect");
+            }
+            if (!ContainsBinaryValueOnly(operaterB))
+            {
+                throw new ArgumentException($"La chaine 'operaterB' possède un format incorrect");
             }
 
-            return true;
+            bool smaller_operater_isA = operaterA.Length < operaterB.Length;
+            string smaller_operater = smaller_operater_isA ? operaterA : operaterB;
+            string biggest_operater = smaller_operater_isA ? operaterB : operaterA;
+
+            int spaceBetwenAB = biggest_operater.Length - smaller_operater.Length;
+            string result = "";
+            for(int i = 0; i < smaller_operater.Length; i++)
+            {
+                //A     0100
+                //B   010001
+                //R   010101
+                result = smaller_operater[i] == '1' || biggest_operater[spaceBetwenAB + i] == '1' ? result + "1": result + "0";
+            }
+
+            string highWeight = biggest_operater.Substring(0, spaceBetwenAB);
+            return highWeight + result;
         }
+        #endregion
 
         public static string RemoveFirstZero(string str)
         {
-            string s = "";
+            string result = "";
             bool reach1 = false;
             for(int i = 0; i < str.Length; i++)
             {
                 if(str[i] != 0)
                 {
                     reach1 = true;
-                    s += str[i];
+                    result += str[i];
                 }
                 else if(reach1 && str[i] == '0')
                 {
-                    s += str[i];
+                    result += str[i];
                 }
 
             }
-            return s;
+            return result;
+        }
+
+        public static string FillFirstZero(string str, int maxLenght)
+        {
+            if (str.Length >= maxLenght || maxLenght < 0)
+            {
+                return str;
+            }
+
+            while(str.Length < maxLenght)
+            {
+                str = "0" + str;
+            }
+
+            return str;
         }
 
         public static bool ContainsBinaryValueOnly(string str)
@@ -152,30 +185,6 @@ namespace CPCS
         public static bool ContainsHexaValueOnly(string str)
         {
             return CompareValue(str, hexaValues);
-        }
-
-        private static bool CompareValue(string str, string values)
-        {
-            for (int i = 0; i < str.Length; i++)
-            {
-                bool isValue = false;
-
-                for (int u = 0; u < values.Length; u++)
-                {
-                    if (str[i] == values[u])
-                    {
-                        isValue = true;
-                        break;
-                    }
-                }
-
-                if (!isValue)
-                {
-                    return false;
-                }
-            }
-
-            return true;
         }
 
         public static string ConvertHexaToBinary(string str)
@@ -210,6 +219,56 @@ namespace CPCS
             }
 
             throw new ArgumentException($"Le charactère 'c' doit correpondre a l'un des caractère suivant '{hexaValues}'");
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="isTrue"></param>
+        /// <returns>true si tout les caractères de <paramref name="str"/> correspond a 0 ou 1 en fonction de <paramref name="isTrue"/>. Sinon False</returns>
+        private static bool AllIs(string str, bool isTrue)
+        {
+            char c = isTrue ? '1' : '0';
+
+            for (int i = 0; i < str.Length; i++)
+            {
+                if (str[i] != '0')
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="values"></param>
+        /// <returns>true si tout les caractères de <paramref name="str"/> correspond a l'un des caractères de <paramref name="values"/>. Sinon False</returns>
+        private static bool CompareValue(string str, string values)
+        {
+            for (int i = 0; i < str.Length; i++)
+            {
+                bool isValue = false;
+
+                for (int u = 0; u < values.Length; u++)
+                {
+                    if (str[i] == values[u])
+                    {
+                        isValue = true;
+                        break;
+                    }
+                }
+
+                if (!isValue)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

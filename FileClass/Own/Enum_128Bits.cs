@@ -9,16 +9,24 @@ namespace CPCS
     public class Enum_128Bits
     {
         private DualValue<HighWeight, LowWeight> _value;
-
+        private int toInt
+        {
+            get => ToInt();
+        }
         public Enum_128Bits()
         {
             _value = new DualValue<HighWeight, LowWeight>(HighWeight._000, LowWeight._000);
         }
-        public Enum_128Bits(HighWeight enumValue2, LowWeight enumValue1)
+        public Enum_128Bits(HighWeight highWeight, LowWeight lowWeight)
         {
-            _value = new DualValue<HighWeight, LowWeight>(enumValue2, enumValue1);
+            _value = new DualValue<HighWeight, LowWeight>(highWeight, lowWeight);
         }
 
+        #region ToString ToInt
+        public int ToInt()
+        {
+            return int.Parse(this._value.Value1.ToString().Replace("_", "")) + int.Parse(this._value.Value2.ToString().Replace("_", ""));
+        }
         public override string ToString()
         {
             return ToString(false);
@@ -55,6 +63,7 @@ namespace CPCS
            
             return str_value1 + str_value2;
         }
+        #endregion
 
         #region Contains
         public bool Contains(string value)
@@ -115,6 +124,11 @@ namespace CPCS
         }
         #endregion
 
+        public Enum_128Bits Copy()
+        {
+            return new Enum_128Bits(this._value.Value1, this._value.Value2);
+        }
+
         #region operateur
         public static Enum_128Bits operator |(Enum_128Bits a, Enum_128Bits b)
         {
@@ -140,12 +154,11 @@ namespace CPCS
                 throw new ArgumentException("La chaine 'str' possède un format incorrect");
             }
 
-
-            ulong value1 = Convert.ToUInt64(str.Substring(0, 16), 16);
-            ulong value2 = Convert.ToUInt64(str.Substring(16), 16);
-
             try
             {
+                ulong value1 = Convert.ToUInt64(str.Substring(0, 16), 16);
+                ulong value2 = Convert.ToUInt64(str.Substring(16), 16);
+
                 return new Enum_128Bits((HighWeight)value1, (LowWeight)value2);
             }
             catch
@@ -154,41 +167,93 @@ namespace CPCS
             }
         }
 
-        public static List<Enum_128Bits> CreateListEnum_128Bits(byte size = 128)
+        public static Enum_128Bits ConvertFromInt(int value)
         {
-            return CreateListEnum_128Bits(0, size);
+            if (value < 0)
+            {
+                throw new ArgumentException("L'argument 'value' ne peut être inférieur à 0");
+            }
+            if (value > 128)
+            {
+                throw new ArgumentException("L'argument 'value' ne peut être supérieur à 128");
+            }
+
+            string lowWeight_str = value <= 64 ? value + "" : "000";
+            string highWeight_str = value <= 64 ? "000" : value + "";
+
+            lowWeight_str = CPCS_Binary.FillFirstZero(lowWeight_str, 3);
+            highWeight_str = CPCS_Binary.FillFirstZero(highWeight_str, 3);
+
+            LowWeight value1 = (LowWeight)Enum.Parse(typeof(LowWeight), "_" + lowWeight_str);
+            HighWeight value2 = (HighWeight)Enum.Parse(typeof(HighWeight), "_" + highWeight_str);
+            return new Enum_128Bits(value2, value1);
         }
 
-        public static List<Enum_128Bits> CreateListEnum_128Bits(byte startIndex, byte size = 128)
+        public static List<Enum_128Bits> CreateListEnum_128Bits(int endIndex = 128)
         {
-            if (size > 128)
+            return CreateListEnum_128Bits(0, endIndex);
+        }
+
+        public static List<Enum_128Bits> CreateListEnum_128Bits(int startIndex, int endIndex)
+        {
+            if (startIndex > endIndex)
             {
-                throw new ArgumentException("L'argument 'size' ne peut être supérieur a 128");
+                throw new ArgumentException("L'argument 'startIndex' ne peut être supérieur à 'endIndex'");
+            }
+
+            if (endIndex > 128)
+            {
+                throw new ArgumentException("L'argument 'endIndex' ne peut être supérieur à 128");
             }
 
             List<Enum_128Bits> result = new List<Enum_128Bits>();
 
-            for (byte i = startIndex; i <= size; i++)
+            for (int i = startIndex; i <= endIndex; i++)
             {
-                string enumValue1_str = i <= 64 ? i+"" : "000";
-                string enumValue2_str = i <= 64 ? "000" : i+"";
-
-                int enumValue1Size = enumValue1_str.Length;
-                int enumValue2Size = enumValue2_str.Length;
-                for (int u = 0; u < 3 - enumValue1Size; u++)
-                {
-                    enumValue1_str = "0" + enumValue1_str;
-                }
-                for (int u = 0; u < 3 - enumValue2Size; u++)
-                {
-                    enumValue2_str = "0" + enumValue2_str;
-                }
-
-                LowWeight value1 = (LowWeight)CPCS_Reflection.GetValueObjFromEnum("_" + enumValue1_str, typeof(Enum_128Bits.LowWeight));
-                HighWeight value2 = (HighWeight)CPCS_Reflection.GetValueObjFromEnum("_" + enumValue2_str, typeof(Enum_128Bits.HighWeight));
-
-                result.Add(new Enum_128Bits(value2, value1));
+                result.Add(Enum_128Bits.ConvertFromInt(i));
             }
+
+            return result;
+        }
+
+        /*public static Enum_128Bits Concat(int minValue, int maxValue)
+        {
+            if (minValue > maxValue)
+            {
+                throw new ArgumentException("L'argument 'minValue' ne peut être supérieur à 'maxValue'");
+            }
+            if (minValue > 128)
+            {
+                throw new ArgumentException("L'argument 'minValue' ne peut être supérieur à 128");
+            }
+            if (maxValue > 128)
+            {
+                throw new ArgumentException("L'argument 'maxValue' ne peut être supérieur à 128");
+            }
+
+            for (int i = minValue; i <= maxValue; i++)
+            {
+                
+            }
+            
+
+            return null;
+        }*/
+
+        public static Enum_128Bits Concat(Enum_128Bits[] enums)
+        {
+            return Concat(enums.ToList());
+        }
+
+        public static Enum_128Bits Concat(List<Enum_128Bits> enums)
+        {
+            if (enums == null)
+            {
+                throw new NullReferenceException("L'argument 'enums' ne noit pas être null");
+            }
+            
+            Enum_128Bits result = new Enum_128Bits();
+            enums.ForEach(e => result.Add(e));
 
             return result;
         }

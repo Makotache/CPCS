@@ -44,23 +44,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileClass\AddOn\CPCS_Binary.cs" />
-    <Compile Include="FileClass\AddOn\CPCS_Array.cs" />
-    <Compile Include="FileClass\AddOn\CPCS_Reflection.cs" />
+    <Compile Include="FileClass\AddOn\Linq\Collections\CPCS_List.cs" />
+    <Compile Include="FileClass\AddOn\Linq\System\CPCS_Array.cs" />
+    <Compile Include="FileClass\AddOn\CPCS_Encoding.cs" />
+    <Compile Include="FileClass\NotUsed\CPCS_Reflection.cs" />
     <Compile Include="FileClass\Own\Usrc\FormCalendar.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="FileClass\Own\Usrc\FormCalendar.Designer.cs">
       <DependentUpon>FormCalendar.cs</DependentUpon>
     </Compile>
-    <Compile Include="FileClass\AddOn\CPCS_Coord.cs" />
+    <Compile Include="FileClass\Own\Coord.cs" />
     <Compile Include="FileClass\AddOn\CPCS_Enum.cs" />
-    <Compile Include="FileClass\AddOn\CPCS_List.cs" />
     <Compile Include="FileClass\AddOn\CPCS_IPV4.cs" />
     <Compile Include="FileClass\AddOn\CPCS_Math.cs" />
     <Compile Include="FileClass\AddOn\CPCS_Random.cs" />
-    <Compile Include="FileClass\AddOn\CPCS_String.cs" />
-    <Compile Include="FileClass\AddOn\CPCS_FormulaireFonction.cs" />
-    <Compile Include="FileClass\AddOn\CPCS_Dictionary.cs" />
+    <Compile Include="FileClass\AddOn\Linq\System\CPCS_String.cs" />
+    <Compile Include="FileClass\AddOn\Linq\Forms\CPCS_FormulaireFonction.cs" />
+    <Compile Include="FileClass\AddOn\Linq\Collections\CPCS_Dictionary.cs" />
     <Compile Include="FileClass\Own\DualValue.cs" />
     <Compile Include="FileClass\Own\Enum_128Bits.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

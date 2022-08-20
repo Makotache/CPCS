@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CPCS.Linq.System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,14 +10,14 @@ namespace CPCS
 {
     public static class CPCS_IPV4
     {
-        public static bool ValideIp(String chaine)
+        public static bool ValideIp(string chaine)
         {
             string base_pattern = "(25[0-4]|2[0-4][0-9]|[01]?[0-9][0-9]?)";
             string pattern = @"\b" + base_pattern + @"\." + base_pattern + @"\." + base_pattern + @"\." + base_pattern + @"\b";
             //Console.WriteLine(pattern);
 
-            Char[] chiffre = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.' };
-            Char[] chaineArray = chaine.ToArray();
+            char[] chiffre = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.' };
+            char[] chaineArray = chaine.ToArray();
             bool[] chaineArrayValide = new bool[chaine.Length];
 
             //on vérifie que tout les caractères de l'ip sont correctes
@@ -42,7 +43,7 @@ namespace CPCS
                 //si la 'chaine' possède bien 4 octets
                 if (chaine.Split('.').Length == 4)
                 {
-                    List<int> octets = CPCS_List.StrArrayToIntArray(chaine.Split('.'));
+                    List<int> octets = chaine.Split('.').StrArrayToIntArray();
                     if (octets[0] == 0)
                     { return false; }
 

@@ -20,7 +20,7 @@ namespace CPCS
             return sample.Next(minValue, maxValue + 1);
         }
 
-        public static Object Get<T>(List<T> list)
+        public static T Get<T>(List<T> list)
         {
             int nb_element_lst = list.Count;
             return list[sample.Next(nb_element_lst)];
@@ -32,7 +32,7 @@ namespace CPCS
         /// </summary>
         /// <param name="tableau">Tableau en 2 dimensions</param>
         /// <returns>La position pris au hasard</returns>
-        public static CPCS_Coord GetRandomNullPosition<T>(T[,] tableau)
+        public static Coord GetRandomNullPosition<T>(T[,] tableau)
         {
             if (tableau.GetLength(0) == 0 || tableau.GetLength(1) == 0)
             {
@@ -40,7 +40,7 @@ namespace CPCS
             }
 
             //liste des élements null disponible
-            List<CPCS_Coord> list_point = new List<CPCS_Coord>();
+            List<Coord> list_point = new List<Coord>();
 
             int colonne = tableau.GetLength(0);
             int ligne = tableau.GetLength(1);
@@ -52,7 +52,7 @@ namespace CPCS
                 {
                     if (tableau[u, i] == null)
                     {
-                        list_point.Add(new CPCS_Coord(u, i));
+                        list_point.Add(new Coord(u, i));
                     }
                 }
             }
@@ -62,10 +62,10 @@ namespace CPCS
                 throw new ArgumentException("Tableau doit au moins contenir deux éléments null.");
             }
 
-            CPCS_Coord coord = (CPCS_Coord)CPCS_Random.Get(list_point);
+            Coord coord = (Coord)CPCS_Random.Get(list_point);
             int x = (int)coord.x;
             int y = (int)coord.y;
-            return new CPCS_Coord(x, y);
+            return new Coord(x, y);
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace CPCS
         /// </summary>
         /// <param name="tableau">Tableau en 2 dimensions</param>
         /// <returns>La position pris au hasard</returns>
-        public static CPCS_Coord GetRandomNotNullPosition(CPCS_Coord[,] tableau)
+        public static Coord GetRandomNotNullPosition(Coord[,] tableau)
         {
             if (tableau.GetLength(0) == 0 || tableau.GetLength(1) == 0)
             {
@@ -82,7 +82,7 @@ namespace CPCS
 
 
             //liste des élements null disponible
-            List<CPCS_Coord> list_point = new List<CPCS_Coord>();
+            List<Coord> list_point = new List<Coord>();
 
             for (int i = 0; i < tableau.GetLength(1); i++)//colonne
             {
@@ -90,7 +90,7 @@ namespace CPCS
                 {
                     if (tableau[u, i] != null)
                     {
-                        list_point.Add((CPCS_Coord)tableau[u, i]);
+                        list_point.Add((Coord)tableau[u, i]);
                     }
                 }
             }
@@ -100,10 +100,10 @@ namespace CPCS
                 throw new ArgumentException("Tableau doit au moins contenir deux éléments non null.");
             }
 
-            CPCS_Coord coord = (CPCS_Coord)CPCS_Random.Get(list_point);
+            Coord coord = (Coord)CPCS_Random.Get(list_point);
             int x = (int)coord.x;
             int y = (int)coord.y;
-            return new CPCS_Coord(x, y);
+            return new Coord(x, y);
         }
 
 

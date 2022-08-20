@@ -8,17 +8,17 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Threading;
 
-namespace CPCS
+namespace CPCS.Linq.Forms
 {
     public static class CPCS_FormulaireFonction
     {
 
         //pour centrer le titres des formulaires
-        public static void UpdateTextPosition(Form formulaire)
+        public static void UpdateTextPosition(this Form form)
         {
-            Graphics g = formulaire.CreateGraphics();
-            double startingPoint = (formulaire.Width / 2) - (g.MeasureString(formulaire.Text.Trim(), formulaire.Font).Width / 2);
-            double widthOfASpace = g.MeasureString(" ", formulaire.Font).Width;
+            Graphics g = form.CreateGraphics();
+            double startingPoint = (form.Width / 2) - (g.MeasureString(form.Text.Trim(), form.Font).Width / 2);
+            double widthOfASpace = g.MeasureString(" ", form.Font).Width;
             string tmp = " ";
             double tmpWidth = 0;
 
@@ -28,7 +28,7 @@ namespace CPCS
                 tmpWidth += widthOfASpace;
             }
 
-            formulaire.Text = tmp + formulaire.Text.Trim();
+            form.Text = tmp + form.Text.Trim();
         }
 
         [DllImport("user32.dll")]
@@ -39,7 +39,7 @@ namespace CPCS
         /// <param name="textbox"></param>
         /// <param name="couleur"></param>
         /// <param name="Formulaire"></param>
-        public static void ChangeBorderColor(TextBox textbox, Color couleur)
+        public static void ChangeBorderColor(this TextBox textbox, Color couleur)
         {
             //récupération de l'instance de la fenêtre
             var hdc = GetWindowDC(textbox.Parent.Handle);
@@ -73,18 +73,18 @@ namespace CPCS
             Console.WriteLine($"rec.X = {rec.X}, rec.Y = {rec.Y},\n rec.Width = {rec.Width}, rec.Height = {rec.Height}");
         }
 
-        public static void SizeFormBorder(Form formulaire, out int bordure_haut, out int bordure_gauche_bas_droite)
+        public static void SizeFormBorder(this Form form, out int bordure_haut, out int bordure_gauche_bas_droite)
         {
             //récupérationde la taille de la fenetre
-            Size fenetre_form = formulaire.Size;
+            Size fenetre_form = form.Size;
             //récupérationde la tailler du conteneur des controls de la fenetre
-            Size conteneur_form = formulaire.RectangleToScreen(formulaire.ClientRectangle).Size;
+            Size conteneur_form = form.RectangleToScreen(form.ClientRectangle).Size;
 
             bordure_gauche_bas_droite = fenetre_form.Width - conteneur_form.Width / 2;
             bordure_haut = fenetre_form.Height - conteneur_form.Width - bordure_gauche_bas_droite;
         }
 
-        public static void OriginalBorderColor(TextBox textbox)
+        public static void OriginalBorderColor(this TextBox textbox)
         {
             //récupérer le rectangle pour le supprimer
             try
@@ -100,7 +100,7 @@ namespace CPCS
             }
         }
 
-        public static bool MouseOverControl(Control control)
+        public static bool MouseOverControl(this Control control)
         {
             return control.ClientRectangle.Contains(control.PointToClient(Cursor.Position));
         }

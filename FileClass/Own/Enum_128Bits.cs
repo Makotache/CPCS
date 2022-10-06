@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CPCS.Linq.System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,24 +9,24 @@ namespace CPCS
 {
     public class Enum_128Bits
     {
-        private DualValue<HighWeight, LowWeight> _value;
+        private ValueTuple<HighWeight, LowWeight> _value;
         private int toInt
         {
             get => ToInt();
         }
         public Enum_128Bits()
         {
-            _value = new DualValue<HighWeight, LowWeight>(HighWeight._000, LowWeight._000);
+            _value = new ValueTuple<HighWeight, LowWeight>(HighWeight._000, LowWeight._000);
         }
         public Enum_128Bits(HighWeight highWeight, LowWeight lowWeight)
         {
-            _value = new DualValue<HighWeight, LowWeight>(highWeight, lowWeight);
+            _value = new ValueTuple<HighWeight, LowWeight>(highWeight, lowWeight);
         }
 
         #region ToString ToInt
         public int ToInt()
         {
-            return int.Parse(this._value.Value1.ToString().Replace("_", "")) + int.Parse(this._value.Value2.ToString().Replace("_", ""));
+            return int.Parse(this._value.Item1.ToString().Replace("_", "")) + int.Parse(this._value.Item2.ToString().Replace("_", ""));
         }
         public override string ToString()
         {
@@ -43,8 +44,8 @@ namespace CPCS
                 return str;
             }
 
-            string str_value1 = add0(Convert.ToString((long)_value.Value1, toBase: 16).ToUpper());
-            string str_value2 = add0(Convert.ToString((long)_value.Value2, toBase: 16).ToUpper());
+            string str_value1 = add0(Convert.ToString((long)_value.Item1, toBase: 16).ToUpper());
+            string str_value2 = add0(Convert.ToString((long)_value.Item2, toBase: 16).ToUpper());
 
             if (makeItVisualizable)
             {
@@ -72,15 +73,15 @@ namespace CPCS
         }
         public bool Contains(Enum_128Bits enum2)
         {
-            return CPCS_Binary.Contains(CPCS_Binary.ConvertHexaToBinary(this.ToString()), CPCS_Binary.ConvertHexaToBinary(enum2.ToString()));
+            return CPCS_Binary.Contains(CPCS_BitConverter.ConvertHexaToBinary(this.ToString()), CPCS_BitConverter.ConvertHexaToBinary(enum2.ToString()));
         }
         public bool Contains(LowWeight value)
         {
-            return CPCS_Binary.Contains((ulong)_value.Value2, (ulong)value);
+            return _value.Item2.ContainsInt64(value);
         }
         public bool Contains(HighWeight value)
         {
-            return CPCS_Binary.Contains((ulong)_value.Value1, (ulong)value);
+            return _value.Item1.ContainsInt64(value);
         }
         #endregion 
 
@@ -91,16 +92,16 @@ namespace CPCS
         }
         public void Add(Enum_128Bits enum2)
         {
-            this.Add(enum2._value.Value2);
-            this.Add(enum2._value.Value1);
+            this.Add(enum2._value.Item2);
+            this.Add(enum2._value.Item1);
         }
         public void Add(LowWeight value)
         {
-            _value.Value2 |= value;
+            _value.Item2 |= value;
         }
         public void Add(HighWeight value)
         {
-            _value.Value1 |= value;
+            _value.Item1 |= value;
         }
         #endregion
 
@@ -111,36 +112,36 @@ namespace CPCS
         }
         public void Remove(Enum_128Bits enum2)
         {
-            this.Remove(enum2._value.Value2);
-            this.Remove(enum2._value.Value1);
+            this.Remove(enum2._value.Item2);
+            this.Remove(enum2._value.Item1);
         }
         public void Remove(LowWeight value)
         {
-            _value.Value2 ^= value;
+            _value.Item2 ^= value;
         }
         public void Remove(HighWeight value)
         {
-            _value.Value1 ^= value;
+            _value.Item1 ^= value;
         }
         #endregion
 
         public Enum_128Bits Copy()
         {
-            return new Enum_128Bits(this._value.Value1, this._value.Value2);
+            return new Enum_128Bits(this._value.Item1, this._value.Item2);
         }
 
         #region operateur
         public static Enum_128Bits operator |(Enum_128Bits a, Enum_128Bits b)
         {
-            return new Enum_128Bits(a._value.Value1 | b._value.Value1, a._value.Value2 | b._value.Value2);
+            return new Enum_128Bits(a._value.Item1 | b._value.Item1, a._value.Item2 | b._value.Item2);
         }
         public static Enum_128Bits operator &(Enum_128Bits a, Enum_128Bits b)
         {
-            return new Enum_128Bits(a._value.Value1 & b._value.Value1, a._value.Value2 & b._value.Value2);
+            return new Enum_128Bits(a._value.Item1 & b._value.Item1, a._value.Item2 & b._value.Item2);
         }
         public static Enum_128Bits operator ^(Enum_128Bits a, Enum_128Bits b)
         {
-            return new Enum_128Bits(a._value.Value1 ^ b._value.Value1, a._value.Value2 ^ b._value.Value2);
+            return new Enum_128Bits(a._value.Item1 ^ b._value.Item1, a._value.Item2 ^ b._value.Item2);
         }
         #endregion
 

@@ -6,29 +6,40 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CPCS
+namespace CPCS.Linq.System
 {
     public static class CPCS_Enum
     {
         #region contains
-        public static bool Contains(Enum enum1, Enum enum2)
+        public static bool ContainsInt16<T>(this T enum1, T enum2) where T : Enum
         {
-            long v1 = Convert.ToInt64(enum1);
-            long v2 = Convert.ToInt64(enum2);
-            return CPCS_Binary.Contains(v1, v2);
+            return ContainsInt16(enum1, Convert.ToInt16(enum2));
         }
-        public static bool Contains(Enum enum1, int value)
+        public static bool ContainsInt16<T>(this T enum1, short value) where T : Enum
         {
-            int v1 = Convert.ToInt32(enum1);
-            return CPCS_Binary.Contains(v1, value);
+            return CPCS_Binary.Contains(Convert.ToInt16(enum1), value);
         }
-        public static bool Contains(Enum enum1, long value)
+
+        public static bool ContainsInt32<T>(this T enum1, T enum2) where T : Enum
         {
-            long v1 = Convert.ToInt64(enum1);
-            return CPCS_Binary.Contains(v1, value);
+            return ContainsInt32(enum1, Convert.ToInt32(enum2));
         }
+        public static bool ContainsInt32<T>(this T enum1, int value) where T : Enum
+        {
+            return CPCS_Binary.Contains(Convert.ToInt16(enum1), value);
+        }
+
+        public static bool ContainsInt64<T>(this T enum1, T enum2) where T : Enum
+        {
+            return ContainsInt64(enum1, Convert.ToInt64(enum2));
+        }
+        public static bool ContainsInt64<T>(this T enum1, long value) where T : Enum
+        {
+            return CPCS_Binary.Contains(Convert.ToInt64(enum1), value);
+        }
+
         #endregion
-        public static bool EnumContainsString(string str, Enum[] arr_filter) 
+        public static bool EnumContainsString<T>(this T[] arr_filter, string str) where T : Enum
         {
             foreach (Enum filter in arr_filter)
             {
@@ -41,7 +52,7 @@ namespace CPCS
             return false;
         }
 
-        public static T Concat<T>(T[] arr) where T : Enum
+        public static T ConcatFlags<T>(this T[] arr) where T : Enum
         {
             if (arr.Length == 0)
             {
@@ -128,8 +139,6 @@ namespace CPCS
                     throw new ArgumentException("Type d'enum nom pris en charge");
             }
             
-            
-
             return (T)Enum.ToObject(typeof(T), result);
         }
     }

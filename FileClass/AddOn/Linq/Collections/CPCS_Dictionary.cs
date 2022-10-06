@@ -39,21 +39,6 @@ namespace CPCS.Linq.Collections
             }
         }
 
-        public static void WriteAllLines<TKey, TValue>(this Dictionary<TKey, TValue> dictionary)
-        {
-            if (dictionary == null)
-            {
-                throw new ArgumentNullException("L'argument 'dictionary' ne peut être null");
-            }
-
-            Console.WriteLine($"Type => ({typeof(TKey)}, {typeof(TValue)})");
-            Console.WriteLine($"Taille Dictionaire => ({dictionary.Count})");
-            for (int i = 0; i < dictionary.Count; i++)
-            {
-                Console.WriteLine($" - Dictionaire[{i}]\n\tclé = '{dictionary.ElementAt(i).Key}', valeur = '{dictionary.ElementAt(i).Value}'");
-            }
-        }
-
         public static Dictionary<Tkey, TValue> Remove<Tkey, TValue>(this Dictionary<Tkey, TValue> fromThis, Dictionary<Tkey, TValue> thisItems)
         {
             if (fromThis == null)
@@ -76,6 +61,34 @@ namespace CPCS.Linq.Collections
             }
 
             return result;
+        }
+
+        public static bool ContainsValues<TKey, TValue>(this Dictionary<TKey, TValue> dict, TValue[] arr)
+        {
+            int count_values = 0;
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (dict.ContainsValue(arr[i]))
+                {
+                    count_values++;
+                }
+            }
+            return count_values == arr.Length;
+        }
+
+        public static void WriteAllLines<TKey, TValue>(this Dictionary<TKey, TValue> dictionary)
+        {
+            if (dictionary == null)
+            {
+                throw new ArgumentNullException("L'argument 'dictionary' ne peut être null");
+            }
+
+            Console.WriteLine($"Type => ({typeof(TKey)}, {typeof(TValue)})");
+            Console.WriteLine($"Taille Dictionaire => ({dictionary.Count})");
+            for (int i = 0; i < dictionary.Count; i++)
+            {
+                Console.WriteLine($" - Dictionaire[{i}]\n\tclé = '{dictionary.ElementAt(i).Key}', valeur = '{dictionary.ElementAt(i).Value}'");
+            }
         }
 
         /*#region ForEach

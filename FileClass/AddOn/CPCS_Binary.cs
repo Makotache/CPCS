@@ -9,38 +9,17 @@ namespace CPCS
     public static class CPCS_Binary
     {
         #region variables
-        private const string hexaValues = "0123456789" + "ABCDEF";
-        private const string binaryValues = "01";
+        public const string hexaValues = "0123456789" + "ABCDEF";
+        public const string binaryValues = "01";
         #endregion
 
         #region operation
         #region contains
+
         public static bool Contains(int valueContains, int thisItem)
         {
-            if (thisItem > valueContains || valueContains == 0 || thisItem == 0)
-            {
-                return false;
-            }
-
-            string valueContains_str = FillFirstZero(Convert.ToString(valueContains, toBase: 2), 32);
-            string thisItem_str = FillFirstZero(Convert.ToString(thisItem, toBase: 2), 32);
-
-            for (int i = 0; i < thisItem_str.Length; i++)
-            {
-                if (thisItem_str[i] == '1' && thisItem_str[i] != valueContains_str[i])
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return Contains((long)valueContains, thisItem);
         }
-
-        public static bool Contains(ulong valueContains, ulong thisItem)
-        {
-            return Contains((long)valueContains, (long)thisItem);
-        }
-
         public static bool Contains(long valueContains, long thisItem)
         {
             //A    contains(B)          R
@@ -53,15 +32,15 @@ namespace CPCS
                 return false;
             }
 
-            string valueContains_str = FillFirstZero(Convert.ToString(valueContains, toBase: 2 ), 64);
-            string thisItem_str = FillFirstZero(Convert.ToString(thisItem, toBase: 2 ), 64);
+            bool[] valueContains_arr = CPCS_BitConverter.From(valueContains);
+            bool[] thisItem_arr = FillFirstZero(thisItem, valueContains_arr.Length);
 
 
             //01            11          false
             //10            11          false
-            for (int i = 0; i < thisItem_str.Length; i++)
+            for (int i = 0; i < thisItem_arr.Length; i++)
             {
-                if (thisItem_str[i] == '1' && thisItem_str[i] != valueContains_str[i])
+                if (thisItem_arr[i] && thisItem_arr[i] != valueContains_arr[i])
                 {
                     return false;
                 }
@@ -142,6 +121,24 @@ namespace CPCS
         }
         #endregion
 
+        #region RemoveFirstZero
+
+        public static bool[] FillFirstZero(long lng, int maxLenght)
+        {
+            List<bool> result = CPCS_BitConverter.From(lng).ToList();
+            if (result.Count >= maxLenght || maxLenght < 0 || maxLenght > 64)
+            {
+                return result.ToArray();
+            }
+
+            while (result.Count < maxLenght)
+            {
+                result.Add(false);
+            }
+
+            return result.ToArray();
+        }
+
         public static string RemoveFirstZero(string str)
         {
             string result = "";
@@ -176,6 +173,9 @@ namespace CPCS
 
             return str;
         }
+        #endregion
+
+        #region ContainsXXXXValueOnly
 
         public static bool ContainsBinaryValueOnly(string str)
         {
@@ -187,39 +187,8 @@ namespace CPCS
             return CompareValue(str, hexaValues);
         }
 
-        public static string ConvertHexaToBinary(string str)
-        {
-            string result = "";
-            for(int i = 0; i < str.Length; i++)
-            {
-                result += ConvertHexaToBinary(str[i]);
-            }
-            return result;
-        }
-        public static string ConvertHexaToBinary(char c)
-        {
-            switch(c.ToString().ToUpper())
-            {
-                case "0": return "0000";
-                case "1": return "0001";
-                case "2": return "0010";
-                case "3": return "0011";
-                case "4": return "0100";
-                case "5": return "0101";
-                case "6": return "0101";
-                case "7": return "0111";
-                case "8": return "1000";
-                case "9": return "1001";
-                case "A": return "1010";
-                case "B": return "1011";
-                case "C": return "1100";
-                case "D": return "1101";
-                case "E": return "1110";
-                case "F": return "1111";
-            }
+        #endregion
 
-            throw new ArgumentException($"Le charactère 'c' doit correpondre a l'un des caractère suivant '{hexaValues}'");
-        }
         /// <summary>
         /// 
         /// </summary>
@@ -246,7 +215,7 @@ namespace CPCS
         /// </summary>
         /// <param name="str"></param>
         /// <param name="values"></param>
-        /// <returns>true si tout les caractères de <paramref name="str"/> correspond a l'un des caractères de <paramref name="values"/>. Sinon False</returns>
+        /// <returns>true si tout les caractères de <paramref name="str"/> correspond à l'un des caractères de <paramref name="values"/>. Sinon False</returns>
         private static bool CompareValue(string str, string values)
         {
             for (int i = 0; i < str.Length; i++)

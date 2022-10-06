@@ -18,5 +18,9 @@ namespace CPCS
             
         }
 
+        private void test()
+        {
+            Keys a = Keys.A;
+        }
     }
 }

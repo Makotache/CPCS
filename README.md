@@ -3,4 +3,4 @@ Bibliothèque contenant différent dériver de classes ou des fonctions utiltair
 
 Library open source
 
-Merci de noter d'où viens cette library lorsque vous l'utilisez
+Merci de me Mentionner lors de l'utilisation de cette library lorsque vous l'utilisez

@@ -43,7 +43,7 @@ namespace CPCS
                 //si la 'chaine' possède bien 4 octets
                 if (chaine.Split('.').Length == 4)
                 {
-                    List<int> octets = chaine.Split('.').StrArrayToIntArray();
+                    int[] octets = chaine.Split('.').StrArrayToIntArray();
                     if (octets[0] == 0)
                     { return false; }
 

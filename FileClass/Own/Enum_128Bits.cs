@@ -9,7 +9,7 @@ namespace CPCS
 {
     public class Enum_128Bits
     {
-        private ValueTuple<HighWeight, LowWeight> _value;
+        private (HighWeight highWeight, LowWeight lowWeight) _value;
         private int toInt
         {
             get => ToInt();
@@ -77,11 +77,11 @@ namespace CPCS
         }
         public bool Contains(LowWeight value)
         {
-            return _value.Item2.ContainsInt64(value);
+            return _value.lowWeight.ContainsInt64(value);
         }
         public bool Contains(HighWeight value)
         {
-            return _value.Item1.ContainsInt64(value);
+            return _value.highWeight.ContainsInt64(value);
         }
         #endregion 
 
@@ -92,16 +92,16 @@ namespace CPCS
         }
         public void Add(Enum_128Bits enum2)
         {
-            this.Add(enum2._value.Item2);
-            this.Add(enum2._value.Item1);
+            this.Add(enum2._value.lowWeight);
+            this.Add(enum2._value.highWeight);
         }
         public void Add(LowWeight value)
         {
-            _value.Item2 |= value;
+            _value.lowWeight |= value;
         }
         public void Add(HighWeight value)
         {
-            _value.Item1 |= value;
+            _value.highWeight |= value;
         }
         #endregion
 
@@ -112,22 +112,22 @@ namespace CPCS
         }
         public void Remove(Enum_128Bits enum2)
         {
-            this.Remove(enum2._value.Item2);
-            this.Remove(enum2._value.Item1);
+            this.Remove(enum2._value.lowWeight);
+            this.Remove(enum2._value.highWeight);
         }
         public void Remove(LowWeight value)
         {
-            _value.Item2 ^= value;
+            _value.lowWeight ^= value;
         }
         public void Remove(HighWeight value)
         {
-            _value.Item1 ^= value;
+            _value.highWeight ^= value;
         }
         #endregion
 
         public Enum_128Bits Copy()
         {
-            return new Enum_128Bits(this._value.Item1, this._value.Item2);
+            return new Enum_128Bits(this._value.highWeight, this._value.lowWeight);
         }
 
         #region operateur

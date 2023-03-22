@@ -1,11 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31729.503
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CPCS", "CPCS.csproj", "{35E2892A-017B-41E9-85CB-5853789557B5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CPCS_UnityEngine", "..\CPCS_UnityEngine\CPCS_UnityEngine.csproj", "{A2A1B31F-59CF-4234-A52C-276D8C7CB695}"
+	ProjectSection(ProjectDependencies) = postProject
+		{35E2892A-017B-41E9-85CB-5853789557B5} = {35E2892A-017B-41E9-85CB-5853789557B5}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

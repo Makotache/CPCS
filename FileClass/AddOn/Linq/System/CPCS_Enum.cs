@@ -13,7 +13,7 @@ namespace CPCS.Linq.System
         #region contains
         public static bool ContainsInt16<T>(this T enum1, T enum2) where T : Enum
         {
-            return ContainsInt16(enum1, Convert.ToInt16(enum2));
+            return enum1.ContainsInt16(Convert.ToInt16(enum2));
         }
         public static bool ContainsInt16<T>(this T enum1, short value) where T : Enum
         {
@@ -22,16 +22,16 @@ namespace CPCS.Linq.System
 
         public static bool ContainsInt32<T>(this T enum1, T enum2) where T : Enum
         {
-            return ContainsInt32(enum1, Convert.ToInt32(enum2));
+            return enum1.ContainsInt32(Convert.ToInt32(enum2));
         }
         public static bool ContainsInt32<T>(this T enum1, int value) where T : Enum
         {
-            return CPCS_Binary.Contains(Convert.ToInt16(enum1), value);
+            return CPCS_Binary.Contains(Convert.ToInt32(enum1), value);
         }
 
         public static bool ContainsInt64<T>(this T enum1, T enum2) where T : Enum
         {
-            return ContainsInt64(enum1, Convert.ToInt64(enum2));
+            return enum1.ContainsInt64(Convert.ToInt64(enum2));
         }
         public static bool ContainsInt64<T>(this T enum1, long value) where T : Enum
         {

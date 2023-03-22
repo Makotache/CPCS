@@ -12,6 +12,7 @@
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -45,6 +46,7 @@
   <ItemGroup>
     <Compile Include="FileClass\AddOn\CPCS_Binary.cs" />
     <Compile Include="FileClass\AddOn\CPCS_BitConverter.cs" />
+    <Compile Include="FileClass\AddOn\Exception_CPCS.cs" />
     <Compile Include="FileClass\AddOn\Linq\Collections\CPCS_List.cs" />
     <Compile Include="FileClass\AddOn\Linq\System\CPCS_Array.cs" />
     <Compile Include="FileClass\AddOn\CPCS_Encoding.cs" />

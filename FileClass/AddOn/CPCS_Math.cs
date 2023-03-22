@@ -10,7 +10,7 @@ namespace CPCS
     {
 
         #region int
-        public static bool ApproximatelyCoef(int ia, int ib, int coef)
+        public static bool ApproximatelyCoef(this int ia, int ib, int coef)
         {
             bool add = ib <= ia + coef;
             bool remove = ia - coef <= ib;
@@ -20,8 +20,8 @@ namespace CPCS
         #endregion
 
 
-        #region float
-        public static bool ApproximatelyCoef(float fa, float fb, float coef)
+        #region float 
+        public static bool ApproximatelyCoef(this float fa, float fb, float coef)
         {
             bool add = fb <= fa + coef;
             bool remove = fa - coef <= fb;

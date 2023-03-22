@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // l'ensemble d'attributs suivant. Changez les valeurs de ces attributs pour modifier les informations
 // associées à un assembly.
 [assembly: AssemblyTitle("CPCS")]
-[assembly: AssemblyDescription("Classe contenant des classes, des dérivés de classes et des Methodes static.")]
+[assembly: AssemblyDescription("Bibliothèque contenant des classes, et des méthodes d'extension.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("CPCS")]
-[assembly: AssemblyProduct("Classe contenant des classes, des dérivés de classes et des Methodes static.")]
-[assembly: AssemblyCopyright("Copyright © CPCS 2021")]
+[assembly: AssemblyCompany("Makotache - CPCS")]
+[assembly: AssemblyProduct("Bibliothèque contenant des classes, et des méthodes d'extension.")]
+[assembly: AssemblyCopyright("Copyright © CPCS 2023")]
 [assembly: AssemblyTrademark("CPCS")]
 [assembly: AssemblyCulture("")]
 
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 // Vous pouvez spécifier toutes les valeurs ou indiquer les numéros de build et de révision par défaut
 // en utilisant '*', comme indiqué ci-dessous :
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("0.5.3.0")]
+[assembly: AssemblyFileVersion("0.5.3.0")]

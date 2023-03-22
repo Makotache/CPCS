@@ -12,6 +12,7 @@ namespace CPCS.Linq.System
         private const string normalLetter = "abcdefghijklmnopqrstuvwxyz";
         private const string numbers = "0123456789";
 
+        #region Contains
         public static bool Contains(this string strToVerify, string withIt, bool ignoreCase)
         {
             if (ignoreCase)
@@ -22,20 +23,6 @@ namespace CPCS.Linq.System
             {
                 return strToVerify.IndexOf(withIt) > -1;
             }
-        }
-
-        public static string StringLatinLetterOnly(this string str, string customCharacter, bool ignoreCase = true, bool withAccent = true)
-        {
-            string letter =  normalLetter + customCharacter + (withAccent ? specialLetter : "");
-
-            for (int i = str.Length - 1; i > -1; i--)
-            {
-                if (!Contains(letter, str[i].ToString(), ignoreCase))
-                {
-                    str = str.Remove(i, 1);
-                }
-            }
-            return str;
         }
 
         public static bool ContainsLatinLetter(this string str, string customCharacter, bool ignoreCase = true, bool withAccent = true)
@@ -51,6 +38,56 @@ namespace CPCS.Linq.System
             }
             return true;
         }
+        #endregion
+
+        #region Modification de string
+        public static string StringLatinLetterOnly(this string str, string customCharacter, bool ignoreCase = true, bool withAccent = true)
+        {
+            string letter =  normalLetter + customCharacter + (withAccent ? specialLetter : "");
+
+            for (int i = str.Length - 1; i > -1; i--)
+            {
+                if (!Contains(letter, str[i].ToString(), ignoreCase))
+                {
+                    str = str.Remove(i, 1);
+                }
+            }
+            return str;
+        }
+
+        public static string Reverse(this string str)
+        {
+            char[] charArray = str.ToCharArray();
+            Array.Reverse(charArray);
+            return new string(charArray);
+        }
+
+        public static string CreateCustomSpace(int countCustomSpace, string customSpace)
+        {
+            string result = "";
+            for (int i = 0; i < countCustomSpace; i++)
+            {
+                result += customSpace;
+            }
+
+            return result;
+        }
+        #endregion
+
+        #region Indexof
+        public static int IndexOf(this string str, string value, bool ignoreCase)
+        {
+            if (ignoreCase)
+            {
+                return str.IndexOf(value, StringComparison.OrdinalIgnoreCase);
+            }
+            return str.IndexOf(value);
+        }
+        public static int IndexOf(this string str, char value, bool ignoreCase)
+        {
+            return str.IndexOf(value.ToString(), ignoreCase);
+        }
+        #endregion
 
         public static int OccurrenceCount(this string str, string occurrence)
         {
@@ -98,7 +135,7 @@ namespace CPCS.Linq.System
             return result.ToArray();
         }
 
-        public static bool EqualIgnorCase(this string str, string withIt)
+        public static bool EqualIgnoreCase(this string str, string withIt)
         {
             if (str.Length != withIt.Length)
             { return false; }

@@ -12,24 +12,28 @@ namespace CPCS.Linq.System
         /// <summary>
         /// Change l'obj similaire a celui dans le tableau par le nouvel_objet.
         /// </summary>
-        /// <param name="tableau">Le Tableau dans le quel on effectue la supression</param>
+        /// <param name="array">Le Tableau dans le quel on effectue la supression</param>
         /// <param name="obj">Objet à supprimer.</param>
         /// <returns>True si réussi sinon false.</returns>
-        public static bool ChangeAllSimilarObject(this object[,] tableau, object obj, object nouvel_objet)
+        public static bool ChangeAllSimilarObject<T>(this T[,] array, T obj, T nouvel_objet)
         {
-            if (tableau.GetLength(0) == 0 || tableau.GetLength(1) == 0)
+            if(array == null)
             {
-                throw new ArgumentException("La taille des ligne ou des colonnes du tableau dois être supérieur à 0.");
+                throw new ArgumentException("L'argument 'array' ne peut être null");
+            }
+            else if (array.GetLength(0) == 0 || array.GetLength(1) == 0)
+            {
+                throw new ArgumentException("La taille des ligne ou des colonnes du tableau dois être supérieur à 0");
             }
 
             bool suppresion_reussi = false;
-            for (int i = 0; i < tableau.GetLength(1); i++)//colonne
+            for (int i = 0; i < array.GetLength(1); i++)//colonne
             {
-                for (int u = 0; i < tableau.GetLength(0); i++)//ligne
+                for (int u = 0; i < array.GetLength(0); i++)//ligne
                 {
-                    if (tableau[u, i] == obj)
+                    if (array[u, i].Equals(obj))
                     {
-                        tableau[u, i] = nouvel_objet;
+                        array[u, i] = nouvel_objet;
                         suppresion_reussi = true;
                     }
                 }
@@ -39,7 +43,7 @@ namespace CPCS.Linq.System
         }
 
 
-        public static List<int> StrArrayToIntArray(this string[] arr)
+        public static int[] StrArrayToIntArray(this string[] arr)
         {
             if (arr == null)
             {
@@ -57,7 +61,7 @@ namespace CPCS.Linq.System
                     result.Add(int.Parse(arr[i]));
                 }
             }
-            return result;
+            return result.ToArray();
         }
 
         public static void WriteAllLines<T>(this T[] arr)
@@ -91,6 +95,41 @@ namespace CPCS.Linq.System
             {
                 action(arr[i]);
             }
+        }
+
+        public static int IndexOf<T>(this T[] arr, T value)
+        {
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (arr[i].Equals(value))
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        public static T[] Reverse<T>(this T[] arr)
+        {
+            List<T> result = new List<T>();
+
+            for (int i = arr.Length - 1; i >= 0; i--)
+            {
+                result.Add(arr[i]);
+            }
+
+            return result.ToArray();
+        }
+
+        public static bool IndexIsValid<T>(this T[] arr, int index)
+        {
+            if (arr == null)
+            {
+                Exception_CPCS.ArgumentNullException("arr");
+            }
+
+            return 0 <= index && index < arr.Length;
         }
     }
 }
